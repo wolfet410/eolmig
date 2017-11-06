@@ -1,0 +1,21 @@
+<md-toolbar>
+	<div class="md-toolbar-tools"><img src="assets/gknlogo.png">Office 365 Migration Dashboard - Login</div>
+</md-toolbar>
+
+<div layout="row" ng-cloak class="md-inline-form">
+	<div>
+		<md-content layout="column" layout-gt-xs="row" layout-padding>
+			<md-input-container>
+				<label>Email address</label>
+				<input ng-model="login.creds.email" type="email">
+			</md-input-container>
+			<md-input-container>
+				<label>Password</label>
+				<input ng-model="login.creds.password" type="password">
+			</md-input-container>
+			<md-input-container>
+				<md-button class="md-raised md-primary" ng-click="login.login()">Login</md-button>
+			</md-input-container>
+		</md-content>
+	</div>
+</div>
