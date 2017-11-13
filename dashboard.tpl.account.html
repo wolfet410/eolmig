@@ -1,0 +1,54 @@
+<div layout="row" layout-sm="column" layout-padding>
+	<div flex>
+		<div layout="column">
+			<div layout="row">
+				<div class="menu-demo-container" layout="column"> <!--  layout-align="center center"  -->
+					<md-menu>
+						<md-button aria-label="Filter" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
+							<i class="fa fa-filter fa-2x"></i>
+						</md-button>
+						<md-menu-content width="4" ng-mouseleave="$mdMenu.close()" style="color:white">
+							<md-menu-item>
+								<md-button class="md-primary" ng-click="dashboard.filterCloud = '!null'">
+									Both
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button class="md-primary" ng-click="dashboard.filterCloud = '1'">
+									Cloud Mailboxes
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button class="md-primary" ng-click="dashboard.filterCloud = '0'">
+									On-premise Mailboxes
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</div>
+				<md-input-container>
+					<label>Search by Name</label>
+					<input ng-model="dashboard.searchName">
+				</md-input-container>
+			</div>
+		</div>
+		<md-content style="height: 550px; overflow-x: hidden;">
+			<section>
+				<md-subheader class="md-primary">OU=Information Technology,OU=AUB,DC=sinter,DC=gkn,DC=com</md-subheader>
+				<md-list class="md-dense">
+					<md-list-item ng-repeat="r in dashboard.account.result | filter:dashboard.searchName | filter:{cloud:dashboard.filterCloud}" class="md-3-line">
+						<div class="md-list-item-text" layout="column">
+							<h3>{{ r.displayName }}</h3>
+							<h4>Email: {{ r.email }}</h4>
+							<p>UPN: {{ r.upn }}</p>
+						</div>
+						<md-icon aria-label="Mailbox Location" class="md-secondary md-hue-3"><i ng-class="{'fa fa-cloud fa-2x': r.cloud === 1 , 'fa fa-server fa-2x': r.cloud !== 1 }"></i></md-icon>
+						<md-icon ng-click="showDn(r.dn)" aria-label="Show DN" class="md-secondary md-hue-3"><i class="fa fa-info-circle fa-2x" style="padding-left: 9px;"></i></md-icon>
+						<md-icon aria-label="setext2" class="md-secondary md-hue-3" ng-click="setext2(r.dn)"><i class="fa fa-address-book fa-2x"></i></md-icon>
+						
+					</md-list-item>
+				</md-list>
+			</section>
+		</md-content>
+	</div>
+</div>
