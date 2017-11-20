@@ -1,18 +1,26 @@
-Eolmig.factory('factoryAuth', function($resource) {
+Eolmig.factory('factoryAuth', function($resource, constant) {
  	var factory = {
-		login: $resource('//shaubtest002.shared.gkn.com/arrow-eolmig/api/user/login', { }, {
+		login: $resource(constant.ARROW_URL + '/api/user/login', { }, {
 			post: { method: 'POST' }
-	    }),
-	    current: $resource('//shaubtest002.shared.gkn.com/arrow-eolmig/api/user/current')
+		}),
+		current: $resource(constant.ARROW_URL + '/api/user/current')
 	};
 
-  return factory;
+	return factory;
 })
 
-.factory('factoryAccount', function($resource) {
+.factory('factoryAccount', function($resource, constant) {
 	var factory = {
-		account: $resource('//shaubtest002.shared.gkn.com/arrow-eolmig/api/account/account'),
-		setext2: $resource('//shaubtest002.shared.gkn.com/arrow-eolmig/api/account/setext2', { }, {
+		account: $resource(constant.ARROW_URL + '/api/account/account')
+	};
+
+	return factory;
+})
+
+.factory('factoryTask', function($resource, constant) {
+	var factory = {
+		task: $resource(constant.ARROW_URL + '/api/task/task'),
+		task: $resource(constant.ARROW_URL + '/api/task/task', { }, {
 			post: { method: 'POST' }
 		})
 	};

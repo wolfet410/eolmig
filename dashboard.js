@@ -1,4 +1,6 @@
-Eolmig.controller('controllerDashboard', function controllerDashboard ($scope, $state, $interval, resolvedAuthCurrent, resolvedAccount, resolvedSetext2, factoryAccount) {
+Eolmig.controller('controllerDashboard', 
+	function controllerDashboard ($scope, $state, $interval, resolvedAuthCurrent, resolvedAccount, factoryAccount) {
+		//resolvedTask,
 
 	// To see the scope in Firefox dev tools, remove in production
 	window.$scope = $scope;
@@ -9,16 +11,17 @@ Eolmig.controller('controllerDashboard', function controllerDashboard ($scope, $
 		      		
 	$scope.dashboard = {
 		user: resolvedAuthCurrent,
-		account: resolvedAccount,
-		task: resolvedSetext2
+		account: resolvedAccount
+		// ,
+		// task: resolvedSetext2
 	};
 
-	// Auto-refresh dashboard data every 30 seconds
-	$interval(function() {
-	    factoryAccount.setext2.get(function(sr) {
-			$scope.dashboard.task = sr;
-		});
-	}, 3000);
+	// // Auto-refresh dashboard data every 30 seconds
+	// $interval(function() {
+	//     factoryAccount.setext2.get(function(sr) {
+	// 		$scope.dashboard.task = sr;
+	// 	});
+	// }, 3000);
 
 	// Dashboard functions
 	$scope.showDn = function(dn) {

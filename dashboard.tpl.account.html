@@ -1,54 +1,40 @@
 <div layout="row" layout-sm="column" layout-padding>
-	<div flex>
-		<div layout="column">
-			<div layout="row">
-				<div class="menu-demo-container" layout="column"> <!--  layout-align="center center"  -->
-					<md-menu>
-						<md-button aria-label="Filter" class="md-icon-button" ng-mouseenter="$mdMenu.open()">
-							<i class="fa fa-filter fa-2x"></i>
-						</md-button>
-						<md-menu-content width="4" ng-mouseleave="$mdMenu.close()" style="color:white">
-							<md-menu-item>
-								<md-button class="md-primary" ng-click="dashboard.filterCloud = '!null'">
-									Both
-								</md-button>
-							</md-menu-item>
-							<md-menu-item>
-								<md-button class="md-primary" ng-click="dashboard.filterCloud = '1'">
-									Cloud Mailboxes
-								</md-button>
-							</md-menu-item>
-							<md-menu-item>
-								<md-button class="md-primary" ng-click="dashboard.filterCloud = '0'">
-									On-premise Mailboxes
-								</md-button>
-							</md-menu-item>
-						</md-menu-content>
-					</md-menu>
-				</div>
-				<md-input-container>
-					<label>Search by Name</label>
-					<input ng-model="dashboard.searchName">
-				</md-input-container>
-			</div>
-		</div>
-		<md-content style="height: 550px; overflow-x: hidden;">
-			<section>
-				<md-subheader class="md-primary">OU=Information Technology,OU=AUB,DC=sinter,DC=gkn,DC=com</md-subheader>
-				<md-list class="md-dense">
-					<md-list-item ng-repeat="r in dashboard.account.result | filter:dashboard.searchName | filter:{cloud:dashboard.filterCloud}" class="md-3-line">
-						<div class="md-list-item-text" layout="column">
-							<h3>{{ r.displayName }}</h3>
-							<h4>Email: {{ r.email }}</h4>
-							<p>UPN: {{ r.upn }}</p>
-						</div>
-						<md-icon aria-label="Mailbox Location" class="md-secondary md-hue-3"><i ng-class="{'fa fa-cloud fa-2x': r.cloud === 1 , 'fa fa-server fa-2x': r.cloud !== 1 }"></i></md-icon>
-						<md-icon ng-click="showDn(r.dn)" aria-label="Show DN" class="md-secondary md-hue-3"><i class="fa fa-info-circle fa-2x" style="padding-left: 9px;"></i></md-icon>
-						<md-icon aria-label="setext2" class="md-secondary md-hue-3" ng-click="setext2(r.dn)"><i class="fa fa-address-book fa-2x"></i></md-icon>
-						
-					</md-list-item>
-				</md-list>
-			</section>
-		</md-content>
-	</div>
+	<md-table-container>
+		<table md-table md-row-select>
+		    <thead md-head>
+				<tr md-row>
+					<th md-column>AD Account Name</th>
+					<th md-column>UPN</th>
+					<th md-column>Synced<br>Cloud?</th>
+					<th md-column>extensionAttribute5</th>
+					<th md-column>AD Sync<br>Attributes<br>Set?</th>
+					<th md-column>Usage<br>Location<br>(Country)</th>
+					<th md-column>Licensed?</th>
+					<th md-column>Bad<br>SMTP<br>Domains?</th>
+					<th md-column>Office 365<br>Client<br>Installed?</th>
+					<th md-column>gkn.mail<br>proxyAddress?</th>
+					<th md-column>upn/smtp<br>match?</th>
+					<th md-column>upn/cloud<br>gkn.com?</th>
+					<th md-column>upn/win mail<br>match?</th>
+				</tr>
+			</thead>
+			<tbody md-body>
+				<tr md-row ng-repeat="r in dashboard.account.result">
+					<td md-cell><strong>{{ r.name }}</strong></td>
+					<td md-cell>{{ r.upn }}</td>
+					<td md-cell ng-class="r.SyncedCloud === 1 ? 'account-item-good' : 'account-item-warning'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="(r.extensionAttribute5 !== 'MC-LSO365' && r.extensionAttribute5 !== 'MSO365') ? 'account-item-alert' : 'account-item-good'">{{ r.extensionAttribute5 === null || r.extensionAttribute5 === '' ? '[Empty]' : r.extensionAttribute5 }}</td>
+					<td md-cell ng-class="r.mailNickname === null ? 'account-item-alert' : 'account-item-good'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="r.usageLocation === null || r.usageLocation === '' ? 'account-item-alert' : 'account-item-good'">{{ r.usageLocation === null || r.usageLocation === '' ? '[Empty]' : r.usageLocation }}</td>
+					<td md-cell ng-class="r.licenses === 'gkn:EMS gkn:ENTERPRISEPACK' || r.licenses === 'gkn:ENTERPRISEPACK gkn:EMS' ? 'account-item-good' : 'account-item-alert'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="r.noBadCloudDomains === 1 ? 'account-item-good' : 'account-item-warning'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="r.officeClientInstalled === 1 ? 'account-item-good' : 'account-item-alert'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="r.gknMailInCloudProxyAddr === 1 ? 'account-item-good' : 'account-item-alert'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="r.upnCloudSmtpMatch === 1 ? 'account-item-good' : 'account-item-alert'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="r.upnCloudIsGkn === 1 ? 'account-item-good' : 'account-item-alert'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+					<td md-cell ng-class="r.upnWinMailMatch === 1 ? 'account-item-good' : 'account-item-alert'"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></td>
+				</tr>
+			</tbody>
+		</table>
+	</md-table-container>
 </div>

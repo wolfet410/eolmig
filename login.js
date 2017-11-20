@@ -2,8 +2,7 @@ Eolmig.controller('controllerLogin', function controllerLogin ($scope, $state, f
 	$scope.login = {
 		creds: {
 			email: null,
-			password: null,
-			test: 'testvalue'
+			password: null
 		},
 		login: function() {
 			factoryAuth.login.post($scope.login.creds, function(user) {

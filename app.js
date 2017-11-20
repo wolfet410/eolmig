@@ -2,7 +2,8 @@ var Eolmig = angular.module('eolmig', [
 	'ui.router',
 	'ngMaterial',
 	'ngResource',
-	'minimalPiechart'
+	'minimalPiechart',
+	'md.data.table'
 ]);
 
 Eolmig.config(function eolmigConfig ($mdThemingProvider, $stateProvider, $urlRouterProvider) {
@@ -39,10 +40,11 @@ Eolmig.config(function eolmigConfig ($mdThemingProvider, $stateProvider, $urlRou
 			},
 			resolvedAccount: function(factoryAccount) {
 				return factoryAccount.account.get().$promise;
-			},
-			resolvedSetext2: function(factoryAccount) {
-				return factoryAccount.setext2.get().$promise;	
 			}
+			// ,
+			// resolvedSetext2: function(factoryAccount) {
+			// 	return factoryAccount.setext2.get().$promise;	
+			// }
 		},
 	});
 
